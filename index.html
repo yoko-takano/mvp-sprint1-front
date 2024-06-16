@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,6 +19,8 @@
             <h1>Asset Administration Shell Repository</h1>
         </div>
     </header>
+
+    <!-- This first container is used for creating an AAS -->
     <div class="container">
         <h2>Create an AAS</h2>
         <div class="form-container">
@@ -58,6 +60,7 @@
         </div>
     </div>
 
+    <!-- This second container is used for updating an AAS -->
     <div class="container">
         <h2>Update an AAS</h2>
         <div class="form-container">
@@ -65,6 +68,7 @@
                 <label for="update_aas_id">Select an Asset Administration Shell by Identifier<span class="required-indicator">*</span></label>
                 <select id="update_aas_id" onchange="fillUpdateForm()">
                     <option value="">-- Select --</option>
+                    <!-- The select options will be dynamically filled in script.js -->
                 </select>
             </div>
             <div class="form-group">
@@ -98,10 +102,12 @@
         </div>
     </div>
 
+    <!-- The third container is used to dynamically display the list of AAS -->
     <div class="container">
         <div class="aas-list-container">
             <h2>List of Created AAS</h2>
             <div class="aas-list" id="aasList">
+                <!-- The list of AAS will be dynamically inserted here -->
             </div>
         </div>
     </div>

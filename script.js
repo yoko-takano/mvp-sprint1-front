@@ -1,32 +1,46 @@
 // Function to get the existing list from the server via GET request
 const getList = async () => {
+
     try {
+
         let url = 'http://127.0.0.1:5000/aas_list';
         const response = await fetch(url);
+
         if (!response.ok) {
             throw new Error('Failed to fetch AAS list');
         }
+
         const data = await response.json();
         const aasList = data['Asset Administration Shells'];
         renderAasList(aasList);
+
     } catch (error) {
         console.error('Error:', error);
-        showNotification('error', 'Erro ao carregar lista de AAS. Verifique o console para mais detalhes.');
+        showNotification('error', 'Error loading list of AAS. Check the console for more details.');
     }
 };
 
 // Function to delete an item from the server list via DELETE request
 const deleteAAS = async (aas_id) => {
+
     if (confirm("Are you sure you want to delete this AAS?")) {
+
         try {
+
             let url = `http://127.0.0.1:5000/aas?aas_id=${encodeURIComponent(aas_id)}`;
             const response = await fetch(url, { method: 'DELETE' });
+
             if (!response.ok) {
                 throw new Error('Failed to delete AAS');
             }
+
+            // Refresh the list after deletion
             getList();
+
+            // Refresh the select dropdown of AAS IDs
             fillAasIdSelect();
             showNotification('success', 'Asset Administration Shell deleted successfully!');
+
         } catch (error) {
             console.error('Error deleting AAS. Try again later.', error);
             showNotification('error', 'Error.');
@@ -36,6 +50,7 @@ const deleteAAS = async (aas_id) => {
 
 // Function to add a new item with the data provided by the user
 const newItem = async () => {
+
     let aas_id = document.getElementById("aas_id").value;
     let id_short = document.getElementById("id_short").value;
     let asset_kind = document.getElementById("asset_kind").value;
@@ -44,17 +59,22 @@ const newItem = async () => {
     let revision = document.getElementById("revision").value;
     let description = document.getElementById("description").value;
 
+    // Validate required fields
     if (!aas_id || !id_short || !asset_kind || !global_asset_id) {
         alert("Please fill in all required fields!");
         return;
     }
 
     try {
+        // Attempt to add the new AAS
         await postItem(aas_id, id_short, asset_kind, global_asset_id, version, revision, description);
+
     } catch (error) {
         console.error('Error creating AAS:', error);
         showNotification('error', error.message || 'Error adding item. Check the console for more details.');
+
     } finally {
+        // Refresh the AAS list and select dropdown
         getList();
         fillAasIdSelect();
     }
@@ -62,8 +82,10 @@ const newItem = async () => {
 
 // Function to display alerts on the interface
 const showNotification = (type, message) => {
+
     const notificationContainer = document.getElementById('notification-container');
     const notificationBox = document.createElement('div');
+
     notificationBox.className = `notification ${type}`;
     notificationBox.innerHTML = `
         ${message}
@@ -71,6 +93,7 @@ const showNotification = (type, message) => {
     `;
     notificationContainer.appendChild(notificationBox);
 
+    // Auto-hide notification after 5 seconds
     setTimeout(() => {
         notificationBox.classList.add('hide');
         setTimeout(() => {
@@ -84,7 +107,9 @@ const renderAasList = (aasList) => {
     const aasListContainer = document.getElementById('aasList');
     aasListContainer.innerHTML = '';
 
+    // Sort and display each AAS in a card format
     aasList.sort((a, b) => a.aas_id.localeCompare(b.aas_id)).forEach(aas => {
+
         const aasCard = document.createElement('div');
         aasCard.className = 'aas-card';
         aasCard.innerHTML = `
@@ -102,6 +127,7 @@ const renderAasList = (aasList) => {
                 <p><strong>Description:</strong> ${aas.description}</p>
             </div>
         `;
+
         aasListContainer.appendChild(aasCard);
     });
 };
@@ -114,9 +140,11 @@ const fillAasIdSelect = async () => {
         const response = await fetch(url);
         const data = await response.json();
 
+        // Extract and sort AAS IDs
         const aasId = data['Asset Administration Shells'].map(aas => aas.aas_id);
         aasId.sort();
 
+        // Populate the select dropdown with options
         const aasIdSelect = document.getElementById("update_aas_id");
         aasIdSelect.innerHTML = '';
 
@@ -148,7 +176,9 @@ const fillUpdateForm = async () => {
     }
 
     try {
+        // Fetch AAS data based on selected ID
         const aasData = await fetchAASByAasId(selectedAasId);
+
         if (aasData) {
             document.getElementById('update_aas_id_short').value = aasData.id_short || '';
             document.getElementById('update_asset_kind').value = aasData.asset_kind || '';
@@ -156,9 +186,11 @@ const fillUpdateForm = async () => {
             document.getElementById('update_version').value = aasData.version || '';
             document.getElementById('update_revision').value = aasData.revision || '';
             document.getElementById('update_description').value = aasData.description || '';
+
         } else {
             clearUpdateForm();
         }
+
     } catch (error) {
         console.error('Error filling update form:', error);
         showNotification('error', 'Error populating update form. Check the console for more details.');
@@ -178,13 +210,16 @@ const clearUpdateForm = () => {
 
 // Function to fetch data of an AAS by its aas_id
 const fetchAASByAasId = async (aas_id) => {
+
     const url = `http://127.0.0.1:5000/aas?aas_id=${encodeURIComponent(aas_id)}`;
+
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error('Failed to fetch AAS data');
         }
         return await response.json();
+
     } catch (error) {
         console.error('Error fetching AAS data:', error);
         throw error;
@@ -193,6 +228,8 @@ const fetchAASByAasId = async (aas_id) => {
 
 // Function to add an AAS to the list via POST request
 const postItem = async (aas_id, id_short, asset_kind, global_asset_id, version, revision, description) => {
+
+    // Create FormData object to send data
     const formData = new FormData();
     formData.append('aas_id', aas_id);
     formData.append('id_short', id_short);
@@ -204,23 +241,28 @@ const postItem = async (aas_id, id_short, asset_kind, global_asset_id, version, 
 
     try {
         let url = 'http://127.0.0.1:5000/aas';
+        // Send POST request to add new AAS
         const response = await fetch(url, {
             method: 'POST',
             body: formData
         });
 
+        // Handle error if response is not ok
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message);
         }
 
+        // If successful, log server response and refresh UI
         const data = await response.json();
         console.log('Resposta do servidor:', data);
 
-        getList();
+        getList(); // Refresh AAS list
         showNotification('success', 'Asset Administration Shell created successfully!');
-        fillAasIdSelect();
+        fillAasIdSelect(); // Refresh AAS ID select dropdown
     } catch (error) {
+
+        // Log and show error notification
         console.error('Error sending data:', error);
         showNotification('error', error.message || 'Error creating Asset Administration Shell. Check the console for more details.');
     }
@@ -228,6 +270,8 @@ const postItem = async (aas_id, id_short, asset_kind, global_asset_id, version, 
 
 // Function to update an item in the list
 const updateItem = async () => {
+
+    // Retrieve values from update form
     const aas_id = document.getElementById("update_aas_id").value;
     const id_short = document.getElementById("update_aas_id_short").value;
     const asset_kind = document.getElementById("update_asset_kind").value;
@@ -236,12 +280,15 @@ const updateItem = async () => {
     const revision = document.getElementById("update_revision").value;
     const description = document.getElementById("update_description").value;
 
+    // Check if an AAS is selected for update
     if (!aas_id) {
         alert("Select an AAS to update!");
         return;
     }
 
     try {
+
+        // Create FormData object with updated data
         const formData = new FormData();
         formData.append('aas_id', aas_id);
         formData.append('id_short', id_short);
@@ -251,7 +298,10 @@ const updateItem = async () => {
         formData.append('revision', revision);
         formData.append('description', description);
 
+        // Construct URL for PUT request to update AAS
         let url = `http://127.0.0.1:5000/aas?aas_id=${encodeURIComponent(aas_id)}`;
+
+        // Send PUT request to update AAS
         const response = await fetch(url, {
             method: 'PUT',
             body: formData
@@ -288,6 +338,7 @@ const toggleView = (aas_id, button) => {
     const detailsDiv = button.parentNode.nextElementSibling;
     const buttonText = button.textContent.trim();
 
+    // Toggle visibility of AAS details and change button text
     if (buttonText === 'View More') {
         detailsDiv.style.display = 'block';
         button.textContent = 'View Less';
