@@ -20,6 +20,13 @@ const getList = async () => {
     }
 };
 
+// Function to convert texto to utf8base64
+const textToUtf8Base64 = (text) => {
+    const utf8Bytes = new TextEncoder().encode(text);
+    const base64String = btoa(String.fromCharCode(...utf8Bytes));
+    return base64String;
+};
+
 // Function to delete an item from the server list via DELETE request
 const deleteAAS = async (aas_id) => {
 
@@ -27,7 +34,12 @@ const deleteAAS = async (aas_id) => {
 
         try {
 
-            let url = `http://127.0.0.1:5000/aas?aas_id=${encodeURIComponent(aas_id)}`;
+            const utf8Base64AasId = textToUtf8Base64(aas_id);
+
+            // URL encoding the utf8Base64AasId to safely include in the URL
+            const encodedAasId = encodeURIComponent(utf8Base64AasId);
+            const url = `http://127.0.0.1:5000/aas?aas_id=${encodedAasId}`;
+
             const response = await fetch(url, { method: 'DELETE' });
 
             if (!response.ok) {
@@ -118,7 +130,7 @@ const renderAasList = (aasList) => {
                 <button class="view-more-btn" onclick="toggleView('${aas.aas_id}', this)">View More</button>
                 <button class="delete-btn" onclick="deleteAAS('${aas.aas_id}')">Delete</button>
             </div>
-            <div class="aas-details" style="display: none;">
+            <div class="aas-details"> <!-- Removed inline style -->
                 <p><strong>ID Short:</strong> ${aas.id_short}</p>
                 <p><strong>Asset Kind:</strong> ${aas.asset_kind}</p>
                 <p><strong>Global Asset ID:</strong> ${aas.global_asset_id}</p>
@@ -145,7 +157,7 @@ const fillAasIdSelect = async () => {
         aasId.sort();
 
         // Populate the select dropdown with options
-        const aasIdSelect = document.getElementById("update_aas_id");
+        const aasIdSelect = document.getElementById("current_aas_id");
         aasIdSelect.innerHTML = '';
 
         const defaultOption = document.createElement('option');
@@ -167,8 +179,7 @@ const fillAasIdSelect = async () => {
 
 // Function to populate the update form with the data of the selected AAS
 const fillUpdateForm = async () => {
-    const updateAasIdElement = document.getElementById('update_aas_id');
-    const selectedAasId = updateAasIdElement.value;
+    const selectedAasId = document.getElementById('current_aas_id').value;
 
     if (!selectedAasId) {
         clearUpdateForm();
@@ -181,8 +192,9 @@ const fillUpdateForm = async () => {
 
         if (aasData) {
             document.getElementById('update_aas_id_short').value = aasData.id_short || '';
-            document.getElementById('update_asset_kind').value = aasData.asset_kind || '';
+            document.getElementById('update_asset_kind').value = aasData.asset_kind || 'Type'; // Set default value if not provided
             document.getElementById('update_global_asset_id').value = aasData.global_asset_id || '';
+            document.getElementById('update_new_aas_id').value = ''; // Clear any previously set value
             document.getElementById('update_version').value = aasData.version || '';
             document.getElementById('update_revision').value = aasData.revision || '';
             document.getElementById('update_description').value = aasData.description || '';
@@ -201,8 +213,9 @@ const fillUpdateForm = async () => {
 // Function to clear update form fields
 const clearUpdateForm = () => {
     document.getElementById('update_aas_id_short').value = '';
-    document.getElementById('update_asset_kind').value = 'Type';
+    document.getElementById('update_asset_kind').value = 'Type'; // Reset to default value
     document.getElementById('update_global_asset_id').value = '';
+    document.getElementById('update_new_aas_id').value = '';
     document.getElementById('update_version').value = '';
     document.getElementById('update_revision').value = '';
     document.getElementById('update_description').value = '';
@@ -211,7 +224,11 @@ const clearUpdateForm = () => {
 // Function to fetch data of an AAS by its aas_id
 const fetchAASByAasId = async (aas_id) => {
 
-    const url = `http://127.0.0.1:5000/aas?aas_id=${encodeURIComponent(aas_id)}`;
+    const utf8Base64AasId = textToUtf8Base64(aas_id);
+
+    // URL encoding the utf8Base64AasId to safely include in the URL
+    const encodedAasId = encodeURIComponent(utf8Base64AasId);
+    const url = `http://127.0.0.1:5000/aas?aas_id=${encodedAasId}`;
 
     try {
         const response = await fetch(url);
@@ -255,7 +272,7 @@ const postItem = async (aas_id, id_short, asset_kind, global_asset_id, version, 
 
         // If successful, log server response and refresh UI
         const data = await response.json();
-        console.log('Resposta do servidor:', data);
+        console.log('Server response:', data);
 
         getList(); // Refresh AAS list
         showNotification('success', 'Asset Administration Shell created successfully!');
@@ -272,7 +289,8 @@ const postItem = async (aas_id, id_short, asset_kind, global_asset_id, version, 
 const updateItem = async () => {
 
     // Retrieve values from update form
-    const aas_id = document.getElementById("update_aas_id").value;
+    const aas_id = document.getElementById("current_aas_id").value;
+    const update_new_aas_id = document.getElementById("update_new_aas_id").value;
     const id_short = document.getElementById("update_aas_id_short").value;
     const asset_kind = document.getElementById("update_asset_kind").value;
     const global_asset_id = document.getElementById("update_global_asset_id").value;
@@ -291,6 +309,7 @@ const updateItem = async () => {
         // Create FormData object with updated data
         const formData = new FormData();
         formData.append('aas_id', aas_id);
+        formData.append('update_aas_id', update_new_aas_id);
         formData.append('id_short', id_short);
         formData.append('asset_kind', asset_kind);
         formData.append('global_asset_id', global_asset_id);
@@ -298,8 +317,7 @@ const updateItem = async () => {
         formData.append('revision', revision);
         formData.append('description', description);
 
-        // Construct URL for PUT request to update AAS
-        let url = `http://127.0.0.1:5000/aas?aas_id=${encodeURIComponent(aas_id)}`;
+        let url = 'http://127.0.0.1:5000/aas';
 
         // Send PUT request to update AAS
         const response = await fetch(url, {
@@ -313,19 +331,17 @@ const updateItem = async () => {
         }
 
         const data = await response.json();
-        console.log('Resposta do servidor:', data);
+        console.log('Server response:', data);
 
-        document.getElementById("update_aas_id_short").value = '';
-        document.getElementById("update_asset_kind").value = '';
-        document.getElementById("update_global_asset_id").value = '';
-        document.getElementById("update_version").value = '';
-        document.getElementById("update_revision").value = '';
-        document.getElementById("update_description").value = '';
-        document.getElementById("update_aas_id").value = '';
+        // Clear form fields after successful update
+        clearUpdateForm();
 
+        // Refresh AAS list and select dropdown
         getList();
-        showNotification('success', 'Asset Administration Shell updated successfully!');
         fillAasIdSelect();
+
+        // Show success notification
+        showNotification('success', 'Asset Administration Shell updated successfully!');
 
     } catch (error) {
         console.error('Error sending data:', error);
@@ -336,15 +352,16 @@ const updateItem = async () => {
 // Function to show/hide details of an AAS
 const toggleView = (aas_id, button) => {
     const detailsDiv = button.parentNode.nextElementSibling;
-    const buttonText = button.textContent.trim();
 
-    // Toggle visibility of AAS details and change button text
-    if (buttonText === 'View More') {
-        detailsDiv.style.display = 'block';
-        button.textContent = 'View Less';
-    } else {
-        detailsDiv.style.display = 'none';
+    // Toggle animation classes for smooth transition
+    if (detailsDiv.classList.contains('show-details')) {
+        detailsDiv.classList.remove('show-details');
+        detailsDiv.classList.add('hide-details');
         button.textContent = 'View More';
+    } else {
+        detailsDiv.classList.remove('hide-details');
+        detailsDiv.classList.add('show-details');
+        button.textContent = 'View Less';
     }
 };
 

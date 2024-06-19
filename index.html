@@ -26,11 +26,11 @@
         <div class="form-container">
             <div class="form-group">
                 <label for="aas_id">Identifier<span class="required-indicator">*</span></label>
-                <input type="text" id="aas_id" placeholder="something_10293DWSds" required>
+                <input type="text" id="aas_id" placeholder="https://example.com/ids/aas/" required maxlenght="2000" minlength="1">
             </div> 
             <div class="form-group">
                 <label for="id_short">Id Short<span class="required-indicator">*</span></label>
-                <input type="text" id="id_short" placeholder="Air_Central_023_AAS">
+                <input type="text" id="id_short" placeholder="Air_Central_023_AAS" maxlength="128" minlength="1">
             </div>
 
             <div class="form-group">
@@ -42,19 +42,19 @@
             </div>
             <div class="form-group">
                 <label for="global_asset_id">Global Asset Identifier<span class="required-indicator">*</span></label>
-                <input type="text" id="global_asset_id" placeholder="https://example.com/id/assets/">
+                <input type="text" id="global_asset_id" placeholder="https://example.com/id/assets/" maxlength="2000" minlength="1">
             </div>
             <div class="form-group">
                 <label for="version">Version</label>
-                <input type="text" id="version" placeholder="1.0">
+                <input type="text" id="version" placeholder="1.0" maxlength="4">
             </div>
             <div class="form-group">
                 <label for="revision">Revision</label>
-                <input type="text" id="revision" placeholder="1.3">
+                <input type="text" id="revision" placeholder="1.3" maxlength="4">
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <input type="text" id="description" placeholder="Description or comments on the element to be created">
+                <input type="text" id="description" placeholder="Description or comments on the element to be created" maxlength="1023">
             </div>
             <button class="btn" onclick="newItem()">Create AAS</button>
         </div>
@@ -65,38 +65,42 @@
         <h2>Update an AAS</h2>
         <div class="form-container">
             <div class="form-group">
-                <label for="update_aas_id">Select an Asset Administration Shell by Identifier<span class="required-indicator">*</span></label>
-                <select id="update_aas_id" onchange="fillUpdateForm()">
+                <label for="current_aas_id">Select an Asset Administration Shell by Identifier<span class="required-indicator">*</span></label>
+                <select id="current_aas_id" onchange="fillUpdateForm()">
                     <option value="">-- Select --</option>
                     <!-- The select options will be dynamically filled in script.js -->
                 </select>
             </div>
             <div class="form-group">
-                <label for="update_aas_id_short">Id Short<span class="required-indicator">*</span></label>
-                <input type="text" id="update_aas_id_short">
+                <label for="update_aas_id_short">Id Short</label>
+                <input type="text" id="update_aas_id_short" maxlength="128">
             </div>
             <div class="form-group">
-                <label for="update_asset_kind">Asset Kind<span class="required-indicator">*</span></label>
+                <label for="update_asset_kind">Asset Kind</label>
                 <select id="update_asset_kind">
                     <option value="Type">Type</option>
                     <option value="Instance">Instance</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="update_global_asset_id">Global Asset ID<span class="required-indicator">*</span></label>
-                <input type="text" id="update_global_asset_id">
+                <label for="update_global_asset_id">Global Asset ID</label>
+                <input type="text" id="update_global_asset_id" maxlength="2000">
+            </div>
+            <div class="form-group">
+                <label for="update_new_aas_id">New Identifier</label>
+                <input type="text" id="update_new_aas_id" maxlength="2000">
             </div>
             <div class="form-group">
                 <label for="update_version">Version</label>
-                <input type="text" id="update_version">
+                <input type="text" id="update_version" maxlength="4">
             </div>
             <div class="form-group">
                 <label for="update_revision">Revision</label>
-                <input type="text" id="update_revision">
+                <input type="text" id="update_revision" maxlength="4">
             </div>
             <div class="form-group">
                 <label for="update_description">Description</label>
-                <input type="text" id="update_description">
+                <input type="text" id="update_description" maxlength="1023">
             </div>
             <button class="btn" onclick="updateItem()">Update AAS</button>
         </div>
