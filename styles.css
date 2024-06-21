@@ -1,236 +1,250 @@
 body {
-    font-family: 'Montserrat', Arial, sans-serif;
-    margin: 0;
-    padding-top: 70px;
-    background: linear-gradient(to bottom right, #f0f0f0, #c0c0c0);
+  font-family: "Montserrat", Arial, sans-serif;
+  margin: 0;
+  padding-top: 70px;
+  background: linear-gradient(to bottom right, #f0f0f0, #c0c0c0);
 }
 
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-content {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .header h1 {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .aas-icon {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .aas-icon img {
-    width: 60px;
-    height: auto;
+  width: 60px;
+  height: auto;
 }
 
 .required-indicator {
-    color: red;
-    margin-left: 5px;
+  color: red;
+  margin-left: 5px;
 }
 
 .container {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .container:first-of-type {
-    margin-top: 55px;
+  margin-top: 55px;
 }
 
 .form-container {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .form-group label {
-    display: block;
-    /* font-weight: bold; */
-    margin-bottom: 5px;
+  display: block;
+  /* font-weight: bold; */
+  margin-bottom: 5px;
 }
 
 .form-group input,
 .form-group select {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .btn {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .aas-list-container {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .aas-card {
-    background-color: #ffffff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    font-size: 14px;
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-size: 14px;
 }
 
 .aas-card:hover {
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    transform: translateY(-4px);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
 }
 
 .aas-card h3 {
-    font-size: 1.0rem;
-    font-style: italic;
-    font-weight: normal;
-    margin-bottom: 10px;
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: normal;
+  margin-bottom: 10px;
 }
 
 .aas-card p {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .card-buttons {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .card-buttons button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.generate-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.generate-btn:hover {
+  background-color: #218838;
 }
 
 .view-more-btn {
-    background-color: #4CAF50;
-    color: #ffffff;
+  background-color: #4caf50;
+  color: #ffffff;
 }
 
 .view-more-btn:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 
 .delete-btn {
-    background-color: #f44336;
-    color: #ffffff;
+  background-color: #f44336;
+  color: #ffffff;
 }
 
 .delete-btn:hover {
-    background-color: #db4436;
+  background-color: #db4436;
 }
 
 .aas-details {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  opacity: 0;
 }
 
 .aas-details.show-details {
-    max-height: 200px;
-    opacity: 1;
+  max-height: 200px;
+  opacity: 1;
 }
 
 .notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: bold;
-    z-index: 10000;
-    background-color: #ffffff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    animation: fade-in 0.5s forwards;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 10000;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  animation: fade-in 0.5s forwards;
 }
 
 .notification.success {
-    background-color: #4CAF50;
-    color: white;
+  background-color: #4caf50;
+  color: white;
 }
 
 .notification.error {
-    background-color: #f44336;
-    color: white;
+  background-color: #f44336;
+  color: white;
 }
 
 .close-btn {
-    cursor: pointer;
-    color: inherit;
-    margin-left: 10px;
+  cursor: pointer;
+  color: inherit;
+  margin-left: 10px;
 }
 
 .close-btn:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 @keyframes fade-in {
-    0% {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fade-out {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
 
 .notification.hide {
-    animation: fade-out 0.5s forwards;
+  animation: fade-out 0.5s forwards;
 }
-
-
