@@ -32,7 +32,7 @@
       <div class="form-container">
         <div class="form-group">
           <label for="aas_id"
-            >Identifier<span class="required-indicator">*</span></label
+            >Identifiable<span class="required-indicator">*</span></label
           >
           <div style="display: flex">
             <input
@@ -43,7 +43,7 @@
               maxlength="2000"
               minlength="1"
             />
-            <button class="generate-btn" onclick="generateIdentifier('aas_id')">
+            <button class="generate-btn" onclick="generateIdentifiable('aas_id')">
               Generate
             </button>
           </div>
@@ -72,7 +72,7 @@
         </div>
         <div class="form-group">
           <label for="global_asset_id"
-            >Global Asset Identifier<span class="required-indicator"
+            >Global Asset Identifiable<span class="required-indicator"
               >*</span
             ></label
           >
@@ -86,7 +86,7 @@
             />
             <button
               class="generate-btn"
-              onclick="generateIdentifier('global_asset_id')"
+              onclick="generateIdentifiable('global_asset_id')"
             >
               Generate
             </button>
@@ -119,7 +119,7 @@
       <div class="form-container">
         <div class="form-group">
           <label for="current_aas_id"
-            >Select an Asset Administration Shell by Identifier<span
+            >Select an Asset Administration Shell by Identifiable<span
               class="required-indicator"
               >*</span
             ></label
@@ -145,7 +145,7 @@
           <input type="text" id="update_global_asset_id" maxlength="2000" />
         </div>
         <div class="form-group">
-          <label for="update_new_aas_id">New Identifier</label>
+          <label for="update_new_aas_id">New Identifiable</label>
           <input type="text" id="update_new_aas_id" maxlength="2000" />
         </div>
         <div class="form-group">

@@ -129,23 +129,23 @@ const renderAasList = (aasList) => {
 
   // Sort and display each AAS in a card format
   aasList
-    .sort((a, b) => a.aas_id.localeCompare(b.aas_id))
+    .sort((a, b) => a.id_short.localeCompare(b.id_short)) // Ordena pelo id_short agora
     .forEach((aas) => {
       const aasCard = document.createElement("div");
       aasCard.className = "aas-card";
       aasCard.innerHTML = `
-            <h3>${aas.aas_id}</h3>
+            <h3>${aas.id_short}</h3>
             <div class="card-buttons">
                 <button class="view-more-btn" onclick="toggleView('${aas.aas_id}', this)">View More</button>
                 <button class="delete-btn" onclick="deleteAAS('${aas.aas_id}')">Delete</button>
             </div>
-            <div class="aas-details"> <!-- Removed inline style -->
-                <p><strong>ID Short:</strong> ${aas.id_short}</p>
+            <div class="aas-details">
+                <p><strong>Identifiable:</strong> ${aas.aas_id || ""}</p>
                 <p><strong>Asset Kind:</strong> ${aas.asset_kind}</p>
-                <p><strong>Global Asset ID:</strong> ${aas.global_asset_id}</p>
-                <p><strong>Version:</strong> ${aas.version}</p>
-                <p><strong>Revision:</strong> ${aas.revision}</p>
-                <p><strong>Description:</strong> ${aas.description}</p>
+                <p><strong>Global Asset ID:</strong> ${aas.global_asset_id || ""}</p>
+                <p><strong>Version:</strong> ${aas.version || ""}</p>
+                <p><strong>Revision:</strong> ${aas.revision || ""}</p>
+                <p><strong>Description:</strong> ${aas.description || ""}</p>
             </div>
         `;
 
@@ -399,16 +399,16 @@ const toggleView = (aas_id, button) => {
   }
 };
 
-// Function to generate and set a new identifier or global asset identifier
-const generateIdentifier = async (fieldId) => {
+// Function to generate and set a new identifiable or global asset identifiable
+const generateIdentifiable = async (fieldId) => {
   try {
     let modelType = fieldId === "aas_id" ? "aas" : "asset";
-    let url = `http://127.0.0.1:5000/generate_id?model_type=${modelType}`;
+    let url = `http://127.0.0.1:5000/generate_id?type_model=${modelType}`;
 
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error("Failed to fetch identifier");
+      throw new Error("Failed to fetch identifiable");
     }
 
     const data = await response.json();
@@ -419,7 +419,7 @@ const generateIdentifier = async (fieldId) => {
     console.error("Error:", error);
     showNotification(
       "error",
-      "Error generating identifier. Check the console for more details."
+      "Error generating identifiable. Check the console for more details."
     );
   }
 };
